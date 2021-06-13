@@ -13,6 +13,8 @@ export default {
 
 <style>
 .nav-bar-wrap{
+  background-color: #fff;
+  padding-top: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
