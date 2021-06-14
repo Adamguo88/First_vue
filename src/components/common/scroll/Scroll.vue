@@ -13,7 +13,11 @@ export default {
   props: {
     probeType: {
       tyep: Number,
-      default : 0
+      default: 0,
+    },
+    pullUpLoad: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -26,17 +30,26 @@ export default {
       click: true,
       observeDOM: true,
       mouseWheel: true,
-      probeType: this.probeType
+      probeType: this.probeType,
+      pullUpLoad: this.pullUpLoad,
     });
 
-    this.scroll.on('scroll' , (position)=>{
+    this.scroll.on("scroll", (position) => {
       // console.log(position);
-      this.$emit('scroll' , position)
-    })
+      this.$emit("scroll", position);
+    });
+
+    this.scroll.on("pullingUp", () => {
+      // console.log('加載');
+      this.$emit("pullingUp");
+    });
   },
   methods: {
     scrollTo(x, y, time = 500) {
       this.scroll.scrollTo(x, y, time);
+    },
+    finishPullUp() {
+      this.scroll.finishPullUp()
     },
   },
 };

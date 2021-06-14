@@ -6,7 +6,14 @@
       </template>
     </nav-bar>
 
-    <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
+    <scroll
+      class="content"
+      ref="scroll"
+      :probe-type="3"
+      @scroll="contentScroll"
+      :pull-up-load="true"
+      @pullingUp="loadMore"
+    >
       <home-swiper :banners="banner"></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
       <feature-view></feature-view>
@@ -57,7 +64,7 @@ export default {
         sell: { page: 0, list: [] },
       },
       currentType: "pop",
-      isShowBackTop: false
+      isShowBackTop: false,
     };
   },
   created() {
@@ -94,10 +101,16 @@ export default {
       // this.$refs.scroll.scroll.scrollTo(0,0,500)
       this.$refs.scroll.scrollTo(0, 0);
     },
-    contentScroll(position){
+    contentScroll(position) {
       // console.log(position.y);
       // this.isShowBackTop = -1000 > position.y
-      this.isShowBackTop = position.y <= -1000 
+      this.isShowBackTop = position.y <= -1000;
+    },
+    loadMore(){
+      this.getHomeGoods(this.currentType)
+
+      // 可以重新設定可滑動高度 refresh
+      // this.$refs.scroll.scroll.refresh()
     },
 
     // 網路請求
@@ -117,6 +130,8 @@ export default {
         // console.log(type);
         this.goods[type].list.push(...res[type].data.list);
         this.goods[type].page += 1;
+
+        this.$refs.scroll.finishPullUp()
       });
     },
   },
