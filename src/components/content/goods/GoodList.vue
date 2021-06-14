@@ -33,6 +33,7 @@ export default {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-evenly;
+  margin-bottom: 40px;
 }
 
 </style>
