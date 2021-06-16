@@ -7,12 +7,10 @@
     </nav-bar>
 
     <scroll
-      class="content"
       ref="scroll"
       :probe-type="3"
       @scroll="contentScroll"
       :pull-up-load="true"
-      @pullingUp="loadMore"
     >
       <home-swiper :banners="banner"></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
@@ -41,6 +39,7 @@ import Scroll from "@/components/common/scroll/Scroll";
 import BackTop from "@/components/content/backtop/BackTop";
 
 import { getHomeMultidate, getHomeGoods } from "@/network/home.js";
+import bus from "@/network/mitt.js";
 
 export default {
   name: "home",
@@ -75,6 +74,11 @@ export default {
     this.getHomeGoods("new");
     this.getHomeGoods("sell");
   },
+  mounted() {
+    bus.on("imageItemLoad", () => {
+      this.$refs.scrollTo && this.$refs.scroll.refresh();
+    });
+  },
   computed: {
     showGoods() {
       return this.goods[this.currentType].list;
@@ -106,12 +110,7 @@ export default {
       // this.isShowBackTop = -1000 > position.y
       this.isShowBackTop = position.y <= -1000;
     },
-    loadMore(){
-      this.getHomeGoods(this.currentType)
-
-      // 可以重新設定可滑動高度 refresh
-      // this.$refs.scroll.scroll.refresh()
-    },
+    imageItemLoad() {},
 
     // 網路請求
     // 網頁創建時  請求 Swiper數據
@@ -125,13 +124,12 @@ export default {
     // 網頁創建時  請求 pop、new、sell數據
     getHomeGoods(type) {
       const page = this.goods[type].page + 1;
+
       getHomeGoods(type, page).then((res) => {
         // console.log(res[type].data);
         // console.log(type);
         this.goods[type].list.push(...res[type].data.list);
         this.goods[type].page += 1;
-
-        this.$refs.scroll.finishPullUp()
       });
     },
   },
@@ -152,7 +150,7 @@ export default {
   top: 44px;
 }
 
-.content {
+.wrapper {
   height: calc(100vh - 97px);
   /* overflow: hidden; */
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <scroll class="contnet">
+    <scroll >
       <ul>
         <li>1</li>
         <li>2</li>
@@ -121,7 +121,7 @@ export default {
 </script>
 
 <style scoped>
-.contnet {
+.wrapper {
   height:70vh;
   background-color: black;
   color: white;
