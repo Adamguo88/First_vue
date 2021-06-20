@@ -10,7 +10,7 @@ export function getHomeMultidate() {
 export function getHomeGoods(type, page) {
   return request({
     url:'/home',
-    pdrams:{
+    params:{
       type,
       page
     }

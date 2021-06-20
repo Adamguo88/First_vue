@@ -1,5 +1,5 @@
 <template>
-  <div class="goods">
+  <div class="goods" v-if="Object.keys(goods).length !== 0">
     <goods-list-item 
       v-for="(item, index) in goods"
       :key="index"

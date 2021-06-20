@@ -1,6 +1,6 @@
 <template>
   <div>
-    <scroll >
+    <scroll>
       <ul>
         <li>1</li>
         <li>2</li>
@@ -109,6 +109,7 @@
 
 <script>
 import Scroll from "@/components/common/scroll/Scroll";
+import { onUnmounted } from '@vue/runtime-core';
 export default {
   components: { Scroll },
   name: "sort",
@@ -122,7 +123,7 @@ export default {
 
 <style scoped>
 .wrapper {
-  height:70vh;
+  height: 70vh;
   background-color: black;
   color: white;
   overflow: hidden;

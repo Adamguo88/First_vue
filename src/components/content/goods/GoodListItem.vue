@@ -1,5 +1,5 @@
 <template>
-  <div class="goods-list-items">
+  <div class="goods-list-items" @click="itemClick">
     <img :src="goodsItem.image" alt="" @load="imageLoad" />
     <p>{{ goodsItem.title }}</p>
     <span class="price">$ {{ goodsItem.price }}</span>
@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import bus from "@/network/mitt.js";
+import { bus } from "@/components/common/utils";
 export default {
   name: "goodslistitem",
   props: {
@@ -20,9 +20,12 @@ export default {
     },
   },
   methods: {
-    imageLoad(){
-      bus.emit('imageItemLoad')
-    }
+    imageLoad() {
+      bus.emit("imageItemLoad");
+    },
+    itemClick() {
+      this.$router.push("/detail/" + this.goodsItem.id);
+    },
   },
 };
 </script>
