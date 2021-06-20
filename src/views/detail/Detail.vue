@@ -29,6 +29,10 @@ import GoodList from "@/components/content/goods/GoodList";
 
 import Scroll from "@/components/common/scroll/Scroll";
 
+import { debounce, bus } from "@/components/common/utils";
+
+// import { onUnmounted, onMounted ,onUpdated } from "vue";
+
 import {
   getDetail,
   Goods,
@@ -63,6 +67,18 @@ export default {
       recommends: [],
     };
   },
+  // setup() {
+  //   console.log("創建");
+  //   onMounted(() => {
+  //     console.log("mounted!");
+  //   });
+  //   onUpdated(() => {
+  //     console.log("updated!");
+  //   });
+  //   onUnmounted(() => {
+  //     console.log("unmounted!");
+  //   });
+  // },
   created() {
     this.id = this.$route.params.id;
 
@@ -93,6 +109,12 @@ export default {
 
     getRecommends().then((res) => {
       this.recommends = res.list;
+    });
+  },
+  mounted() {
+    const refresh = debounce(this.$refs.scroll.refresh, 1);
+    bus.on("detailimageItemLoad", () => {
+      refresh();
     });
   },
   methods: {

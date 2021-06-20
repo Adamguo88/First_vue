@@ -52,7 +52,7 @@ import BackTop from "@/components/content/backtop/BackTop";
 
 import { getHomeMultidate, getHomeGoods } from "@/network/home.js";
 import { debounce, bus } from "@/components/common/utils";
-import { onMounted, onUnmounted } from '@vue/runtime-core';
+
 
 export default {
   name: "home",
@@ -89,9 +89,14 @@ export default {
     this.getHomeGoods("new");
     this.getHomeGoods("sell");
   },
+  unmounted() {
+    /* 选项 API */
+    console.log("unmounted");
+  },
+
   mounted() {
     const refresh = debounce(this.$refs.scroll.refresh, 1);
-    bus.on("imageItemLoad", () => {
+    bus.on("homeimageItemLoad", () => {
       refresh();
     });
   },
@@ -127,7 +132,7 @@ export default {
       // this.isShowBackTop = -1000 > position.y
       this.isShowBackTop = position.y <= -1000;
 
-      this.isTabFixed = (-position.y) + 44 > this.tabOffsetTop;
+      this.isTabFixed = -position.y + 44 > this.tabOffsetTop;
     },
     loadMore() {
       this.getHomeGoods(this.currentType);

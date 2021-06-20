@@ -21,7 +21,12 @@ export default {
   },
   methods: {
     imageLoad() {
-      bus.emit("imageItemLoad");
+      // console.log(this.$route.path.indexOf('/home') == false);
+      if (this.$route.path.indexOf("/home" === 0)) {
+        bus.emit("homeimageItemLoad");
+      } else if (this.$route.path.indexOf("/detail") === 0) {
+        bus.emit("detailimageItemLoad");
+      }
     },
     itemClick() {
       this.$router.push("/detail/" + this.goodsItem.id);
